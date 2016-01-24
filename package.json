@@ -1,0 +1,37 @@
+{
+  "name": "condensrjs",
+  "version": "1.0.0",
+  "description": "Useful for safely securing cloud resources on cloud hosts",
+  "main": "lib/condensr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Keplrs/condensrjs.git"
+  },
+  "keywords": [
+    "files",
+    "cloud",
+    "download",
+    "upload",
+    "aws",
+    "drive",
+    "node",
+    "url",
+    "public",
+    "amazon",
+    "copy",
+    "move",
+    "s3",
+    "google",
+    "condenser",
+    "condensr"
+  ],
+  "author": "Olalekan Sogunle <sogunleolalekan@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Keplrs/condensrjs/issues"
+  },
+  "homepage": "https://github.com/Keplrs/condensrjs"
+}
