@@ -26,7 +26,12 @@
     "s3",
     "google",
     "condenser",
-    "condensr"
+    "condensr",
+    "save",
+    "resource",
+    "objects",
+    "aws",
+    "gcloud"
   ],
   "author": "Olalekan Sogunle <sogunleolalekan@gmail.com>",
   "license": "ISC",
