@@ -34,7 +34,12 @@
     "gcloud"
   ],
   "author": "Olalekan Sogunle <sogunleolalekan@gmail.com>",
-  "license": "ISC",
+  "license": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Keplrs/condensrjs/blob/master/LICENSE-MIT"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/Keplrs/condensrjs/issues"
   },
