@@ -43,4 +43,4 @@ options = {
          }
 ```
 Please refere to the list of [aws canned acl](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html)
-* The result with is the data typically contains meta-data of the file uploaded. You can get access to the new link of the file here.
+* The result data typically contains meta-data of the file uploaded. You can get access to the new link of the file in the response data.
