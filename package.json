@@ -45,7 +45,15 @@
   },
   "dependencies": {
     "aws-sdk": "~2.2.16",
-    "gcloud": "^0.27.0"
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
+    "gcloud": "^0.27.0",
+    "mkdirp": "^0.5.1",
+    "progress": "^1.1.8",
+    "prompt": "^1.0.0"
+  },
+  "bin": {
+    "condensr": "./bin/condensr"
   },
   "homepage": "https://github.com/Keplrs/condensrjs"
 }

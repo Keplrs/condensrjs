@@ -1,0 +1,125 @@
+#!/usr/bin/env node --harmony
+
+var program = require('commander'),
+condensr = require('../lib/condensr'),
+errorHandler = require('../lib/utilities/errorHandler'),
+fs = require('fs'),
+mkdirp = require('mkdirp'),
+chalk = require("chalk"),
+prompt = require('prompt'),
+successFormat = chalk.bold.green;
+
+var configPath = getUserHome() + '/.condensr',
+awsConfigPath = configPath + '/aws_config',
+gcloudConfigPath = configPath + '/gcloud_config',
+keyJson = {};
+
+var awsOptions =  [{
+                    name: 'aws_access_key_id',
+                  },
+                  {
+                    name: 'aws_secret_access_key',
+                  },
+                  {
+                    name: 'aws_region',
+                  },
+                  {
+                    name: 'aws_bucket',
+                  }],
+    gcloudOptions = [{
+                       name: 'gcloud_project_id',
+                      },
+                      {
+                        name: 'gcloud_key_path',
+                      },
+                      {
+                        name: 'gcloud_bucket'
+                      }];
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
+
+  program
+     .command('set-options')
+     .option('-a, --aws', "Set AWS storage options")
+     .option('-g, --gcloud', "Set Google Cloud storage options")
+     .action(function(options) {
+         mkdirp(configPath, function(err) {
+             if (err) { errorHandler.raiseError(err); }
+         });
+         if (options.aws) {
+               prompt.start();
+               prompt.get(awsOptions, function (err, result) {
+                     if (err) { errorHandler.raiseError(err); }
+                     var json_key = {
+                        accessKeyId: result.aws_access_key_id,
+                        secretAccessKey: result.aws_secret_access_key,
+                        region: result.aws_region,
+                        bucket: result.aws_bucket
+                     }
+                    fs.writeFile(awsConfigPath, JSON.stringify(json_key, null, 4), function(err) {
+                        if (err) { errorHandler.raiseError(err); }
+
+                        console.log(successFormat("Created credentials at " + awsConfigPath));
+                    });
+
+               })
+         }
+
+         if (options.gcloud) {
+               prompt.start();
+               prompt.get(gcloudOptions, function (err, result) {
+                    if (err) { errorHandler.raiseError(err); }
+                    var json_key = {
+                       projectId: result.gcloud_project_id,
+                       keyFile: result.gcloud_key_path,
+                       bucket: result.gcloud_bucket
+                    }
+                   fs.writeFile(gcloudConfigPath, JSON.stringify(json_key, null, 4), function(err) {
+                       if (err) { errorHandler.raiseError(err); }
+
+                       console.log(successFormat("Created credentials at " + gcloudConfigPath));
+                   });
+               })
+         }
+     });
+
+
+program
+  .command('condense')
+  .option('-u, --upload-type <uploadType>', 'Upload type, gcloud or s3')
+  .option('-d, --destination <destination>', 'Optional name to give the destination file')
+  .action(function(fileUrl, options) {
+      if (options.uploadType == "s3") {
+           fs.readFile(awsConfigPath, 'utf8', function (err,data) {
+               if (err) { errorHandler.raiseError(err); }
+               var keyJson = JSON.parse(data);
+               condensr.setClientOptions({
+                  aws: keyJson
+               })
+           });
+      } else if (options.uploadType == "gcloud") {
+          fs.readFile(gcloudConfigPath, 'utf8', function (err,data) {
+              if (err) { errorHandler.raiseError(err); }
+              var keyJson = JSON.parse(data);
+              condensr.setClientOptions({
+                 gcloud: keyJson
+              })
+          });
+      }
+
+      var condenseOptions = {
+        uploadType: options.uploadType,
+        fileUrl: fileUrl
+      }
+      if (options.destination) { condenseOptions.destinationName = options.destination }
+
+      condensr.condense(condenseOptions, function(err, data){
+          if (err) { errorHandler.raiseError(err); }
+          console.log(successFormat("Successfully condensed file " + JSON.stringify(data, null, 4)));
+      })
+
+  });
+
+  program.parse(process.argv);
