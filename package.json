@@ -1,6 +1,6 @@
 {
   "name": "condensrjs",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Useful for safely securing cloud resources on cloud hosts",
   "main": "lib/condensr.js",
   "scripts": {
