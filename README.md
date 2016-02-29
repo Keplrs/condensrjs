@@ -44,3 +44,22 @@ options = {
 ```
 Please refere to the list of [aws canned acl](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html)
 * The result data typically contains meta-data of the file uploaded. You can get access to the new link of the file in the response data.
+
+##You can also use Condensr as a command line tool. 
+* Install Condensr globally `npm install -g condensrjs` 
+
+### Set your configuration;
+For aws s3 buckets
+```
+condensr set-options -a 
+```
+get list of flags and options with --help
+
+### you are ready to condense;
+Into an s3 bucket with 
+```
+condensr condense -u s3 <file url>
+```
+
+## Contribution
+Feel free to refactor the code, add extra features and support for other cloud platforms. Fork the project, make your changes and create a pull request. 
